@@ -10,6 +10,7 @@ public class physicsSpinFunctions : MonoBehaviour {
 	
 	public float curAngFreq;
 	public float targetAngFreq;
+	public float absTargAngFreq;
 	//public float sqTargetAngFreq;
 	public int playstate;
 	private Rigidbody rb;
@@ -31,6 +32,7 @@ public class physicsSpinFunctions : MonoBehaviour {
 		// initialise all variables
 		rb = rigidbody;
 		playstate = 0;
+		absTargAngFreq = 5f;
 		targetAngFreq = 5f;
 		spinAmount = 50f;
 		rb.angularDrag = 0f ;
@@ -43,40 +45,15 @@ public class physicsSpinFunctions : MonoBehaviour {
 	}
 	
 	void Update () {
-		
-		
-		if(Input.GetKeyDown(KeyCode.S)){
 			
-			playState();
-		}
-			
-		audio.pitch = curAngFreq/targetAngFreq;
+		audio.pitch = curAngFreq / absTargAngFreq;
 		
 		
-		/*mouse drag position shite
-		
-		if(Input.GetMouseButtonDown(0)){
-			mouseDrag = 1;
-			mouseDragStartPos = Input.mousePosition;
-		}
-		
-		if(Input.GetMouseButtonUp(0)){
-			mouseDrag = 1;
-			mouseDragEndPos = Input.mousePosition;
-		}
-		
-		if (mouseDrag==1) {
-			
-			mouseDragMagnitude =  calculateMouseDragVelocity();
-			mouseDrag = 0;
-		
-		}*/
 	}
 	
 	
 	void FixedUpdate () {
 		
-		//Debug.Log ("playstate: " + playstate);
 		
 		rb.maxAngularVelocity = targetAngFreq;
 		curAngFreq = rb.angularVelocity.magnitude;
@@ -150,6 +127,7 @@ public class physicsSpinFunctions : MonoBehaviour {
 		Debug.Log ("spinUp called");
 		
 		playstate = 1;
+		spinAmount = 50f;
 		rb.angularDrag = 0f;
 		if (curAngFreq < targetAngFreq){
 			
@@ -166,8 +144,9 @@ public class physicsSpinFunctions : MonoBehaviour {
 		Debug.Log ("play called");
 		
 		playstate = 2;
+		spinAmount = 500f;
 		rb.angularDrag = 0f;
-		rb.AddTorque(transform.up * Time.deltaTime);
+		rb.AddTorque(transform.up * spinAmount * Time.deltaTime);
 		
 	}
 	
@@ -176,6 +155,7 @@ public class physicsSpinFunctions : MonoBehaviour {
 		Debug.Log ("spinDown called");
 		
 		playstate =3;
+		spinAmount = 50f;
 		rb.angularDrag = 0.5f;
 		if (curAngFreq == 0f){
 			
@@ -191,6 +171,7 @@ public class physicsSpinFunctions : MonoBehaviour {
 		Debug.Log ("stop called");
 		
 		playstate = 0;
+		spinAmount = 50f;
 		rb.angularDrag = 1;
 		
 		
@@ -221,6 +202,26 @@ public class physicsSpinFunctions : MonoBehaviour {
 			
 			spinUp ();
 		}
+	}
+	
+	public void changeTargFreq (float newFreq) {
+		
+		// i am clamping these values in the pitch control to allow max changes +- 5 bpm
+		
+		targetAngFreq = newFreq;
+		
+	}
+	
+	public Vector3 returnPos () {
+		
+		return transform.position;
+		
+	}
+	
+	public Vector3 returnRot () {
+		
+		return transform.eulerAngles;
+		
 	}
 	
 }
