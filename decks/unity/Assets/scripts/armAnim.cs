@@ -26,12 +26,12 @@ public class armAnim : MonoBehaviour {
 		
 		if (armstate == 1) { 
 			
-			t +=  Time.deltaTime;
+			t +=  Time.deltaTime/duration;
 			
 			if (t<1.0f) {
 			
 				//Quaternion.Slerp(Quaternion.LookRotation(startRot,Vector3.up),Quaternion.LookRotation(endRot,Vector3.up),duration);
-				transform.eulerAngles = Vector3.Lerp (startRot,endRot,t/duration);
+				transform.eulerAngles = Vector3.Lerp (startRot,endRot,t);
 			
 			}
 			
@@ -50,7 +50,7 @@ public class armAnim : MonoBehaviour {
 			if (t<1.0f) {
 		
 				//Quaternion.Slerp(Quaternion.LookRotation(endRot,Vector3.up),Quaternion.LookRotation(startRot,Vector3.up),duration);
-				transform.eulerAngles = Vector3.Lerp (endRot,startRot,duration);
+				transform.eulerAngles = Vector3.Lerp (endRot,startRot,t);
 			}
 			
 			else {

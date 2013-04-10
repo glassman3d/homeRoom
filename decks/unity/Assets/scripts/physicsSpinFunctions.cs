@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(AudioSource))]
+//[RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(Rigidbody))]
 
 public class physicsSpinFunctions : MonoBehaviour {
@@ -45,8 +45,9 @@ public class physicsSpinFunctions : MonoBehaviour {
 	}
 	
 	void Update () {
-			
-		audio.pitch = curAngFreq / absTargAngFreq;
+		
+		// moved audio to record now!!
+		//audio.pitch = curAngFreq / absTargAngFreq;
 		
 		
 	}
@@ -221,6 +222,12 @@ public class physicsSpinFunctions : MonoBehaviour {
 	public Vector3 returnRot () {
 		
 		return transform.eulerAngles;
+		
+	}
+	
+	public float returnAngVel () {
+		
+		return curAngFreq;
 		
 	}
 	
